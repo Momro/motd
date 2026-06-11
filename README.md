@@ -8,5 +8,7 @@ for f in /etc/update-motd.d/* ; do
 done
 
 # get this repo's MotD, make it executable, symlink in /etc/update-motd.d/
-git clone https://github.com/Momro/motd "${HOME}"/motd && cd "${HOME}/motd" && sudo chmod +x 00-custom-header && sudo ln -s "${HOME}/motd/00-custom-header" /etc/update-motd.d/00-custom-header
-
+git clone https://github.com/Momro/motd "${HOME}"/motd
+cd "${HOME}/motd"
+sudo chmod +x 00-custom-header
+sudo ln -s "${HOME}/motd/00-custom-header" /etc/update-motd.d/00-custom-header
