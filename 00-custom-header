@@ -1,7 +1,8 @@
 #!/bin/sh
-#echo ""
+echo ""
 #echo "### === SSH CONNECTION === ###"
-#echo ""
+echo "### === WELCOME === ###"
+echo ""
 
 # Hostname
 echo "Host:        $(hostname)"
