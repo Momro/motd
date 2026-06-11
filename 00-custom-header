@@ -1,0 +1,21 @@
+#!/bin/sh
+#echo ""
+#echo "### === SSH CONNECTION === ###"
+#echo ""
+
+# Hostname
+echo "Host:        $(hostname)"
+
+# read OS version
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    echo "OS version:  $PRETTY_NAME"
+fi
+
+# get primary IPv4
+IP_ADDR=$(ip -4 addr show $(ip route | awk '/default/ {print $5}' | head -n1) | awk '/inet / {print $2}' | cut -d/ -f1)
+if [ -n "$IP_ADDR" ]; then
+    echo "IP Address:  $IP_ADDR"
+fi
+
+echo "" # empty line at the end for optics
