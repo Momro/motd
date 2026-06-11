@@ -1,19 +1,24 @@
 #!/bin/sh
 
-# Farbdefinition aus hostnamecolor.zsh auslesen
-HOSTNAMECOLOR_PATH="${HOME}/zshconfig/hostnamecolor.zsh"
+# Absoluter Pfad zur hostnamecolor.zsh (ersetze 'achim' mit deinem Benutzernamen)
+HOSTNAMECOLOR_PATH="/home/achim/zshconfig/hostnamecolor.zsh"
+
 if [ -f "$HOSTNAMECOLOR_PATH" ]; then
     HOSTNAME_COLOR=$(cat "$HOSTNAMECOLOR_PATH")
-    # Prüfe, ob die Farbe im 256-Farben-Bereich liegt (0-255)
-    if [ "$HOSTNAME_COLOR" -ge 0 ] 2>/dev/null && [ "$HOSTNAME_COLOR" -le 255 ] 2>/dev/null; then
-        COLOR_START="\033[38;5;${HOSTNAME_COLOR}m"
-    else
-        # Fallback: Standardfarbe (Grün = 2)
-        COLOR_START="\033[32m"
-    fi
+    # Prüfe, ob HOSTNAME_COLOR eine Zahl ist (0-255)
+    case "$HOSTNAME_COLOR" in
+        ''|*[!0-9]*) HOSTNAME_COLOR="2" ;; # Fallback, falls keine Zahl
+        *)
+            # Prüfe, ob die Zahl im Bereich 0-255 liegt
+            if [ "$HOSTNAME_COLOR" -ge 0 ] && [ "$HOSTNAME_COLOR" -le 255 ]; then
+                COLOR_START="\033[38;5;${HOSTNAME_COLOR}m"
+            else
+                COLOR_START="\033[32m" # Fallback: Grün
+            fi
+            ;;
+    esac
 else
-    # Fallback: Standardfarbe (Grün = 2)
-    COLOR_START="\033[32m"
+    COLOR_START="\033[32m" # Fallback: Grün
 fi
 
 COLOR_END="\033[0m"
