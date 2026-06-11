@@ -1,11 +1,29 @@
 #!/bin/sh
+
+# some config
+# Farbdefinition aus hostnamecolor.zsh auslesen
+HOSTNAMECOLOR_PATH="${HOME}/zshconfig/hostnamecolor.zsh"
+if [ -f "$HOSTNAMECOLOR_PATH" ]; then
+    HOSTNAME_COLOR=$(cat "$HOSTNAMECOLOR_PATH")
+else
+    # Fallback: Standardfarbe (z. B. Grün)
+    HOSTNAME_COLOR="2"
+fi
+
+# ANSI-Farbcodes für die Terminalausgabe
+COLOR_START="\033[38;5;${HOSTNAME_COLOR}m"
+COLOR_END="\033[0m"
+
+
 echo ""
 #echo "### === SSH CONNECTION === ###"
 echo "### === WELCOME === ###"
 echo ""
 
 # Hostname
-echo "Host:        $(hostname)"
+#echo "Host:        $(hostname)"
+echo "Host:        ${COLOR_START}$(hostname)${COLOR_END}"
+
 
 # read OS version
 if [ -f /etc/os-release ]; then
