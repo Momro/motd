@@ -12,3 +12,4 @@ git clone https://github.com/Momro/motd "${HOME}"/motd
 cd "${HOME}/motd"
 sudo chmod +x 00-custom-header
 sudo ln -s "${HOME}/motd/00-custom-header" /etc/update-motd.d/00-custom-header
+```
