@@ -1,40 +1,39 @@
 #!/bin/sh
 
-# some config
 # Farbdefinition aus hostnamecolor.zsh auslesen
 HOSTNAMECOLOR_PATH="${HOME}/zshconfig/hostnamecolor.zsh"
 if [ -f "$HOSTNAMECOLOR_PATH" ]; then
     HOSTNAME_COLOR=$(cat "$HOSTNAMECOLOR_PATH")
+    # Prüfe, ob die Farbe im 256-Farben-Bereich liegt (0-255)
+    if [ "$HOSTNAME_COLOR" -ge 0 ] 2>/dev/null && [ "$HOSTNAME_COLOR" -le 255 ] 2>/dev/null; then
+        COLOR_START="\033[38;5;${HOSTNAME_COLOR}m"
+    else
+        # Fallback: Standardfarbe (Grün = 2)
+        COLOR_START="\033[32m"
+    fi
 else
-    # Fallback: Standardfarbe (z. B. Grün)
-    HOSTNAME_COLOR="2"
+    # Fallback: Standardfarbe (Grün = 2)
+    COLOR_START="\033[32m"
 fi
 
-# ANSI-Farbcodes für die Terminalausgabe
-COLOR_START="\033[38;5;${HOSTNAME_COLOR}m"
 COLOR_END="\033[0m"
 
+printf "\n"
+printf "### === WELCOME === ###\n\n"
 
-echo ""
-#echo "### === SSH CONNECTION === ###"
-echo "### === WELCOME === ###"
-echo ""
+# Hostname mit Farbe
+printf "Host:        ${COLOR_START}$(hostname)${COLOR_END}\n"
 
-# Hostname
-#echo "Host:        $(hostname)"
-echo "Host:        ${COLOR_START}$(hostname)${COLOR_END}"
-
-
-# read OS version
+# OS Version
 if [ -f /etc/os-release ]; then
     . /etc/os-release
-    echo "OS version:  $PRETTY_NAME"
+    printf "OS version:  $PRETTY_NAME\n"
 fi
 
-# get primary IPv4
+# Primäre IPv4-Adresse
 IP_ADDR=$(ip -4 addr show $(ip route | awk '/default/ {print $5}' | head -n1) | awk '/inet / {print $2}' | cut -d/ -f1)
 if [ -n "$IP_ADDR" ]; then
-    echo "IP Address:  $IP_ADDR"
+    printf "IP Address:  $IP_ADDR\n"
 fi
 
-echo "" # empty line at the end for optics
+printf "\n"
