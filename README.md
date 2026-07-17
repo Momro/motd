@@ -7,6 +7,9 @@ for f in /etc/update-motd.d/* ; do
   sudo chmod -x $f
 done
 
+# remove /etc/motd in debian
+sudo rm /etc/motd
+
 # get this repo's MotD, make it executable, symlink in /etc/update-motd.d/
 git clone https://github.com/Momro/motd "${HOME}"/motd
 cd "${HOME}/motd"
