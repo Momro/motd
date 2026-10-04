@@ -39,7 +39,8 @@ fi
 COLOR_UPDATE="\033[5m" # this is flashing :-D
 # Updates available
 APT_UPGRADE_PACKAGE_COUNT=$(apt list --upgradable 2>/dev/null | wc -l)
-if [ $APT_UPGRADE_PACKAGE_COUNT -gt 5 ] ; then 
+# it can happen that more than 5 updates are in pipeline and cannot be upgraded, so increased to 10 items
+if [ $APT_UPGRADE_PACKAGE_COUNT -gt 10 ] ; then 
         printf "Updates:     ${COLOR_UPDATE}${APT_UPGRADE_PACKAGE_COUNT}${COLOR_END}\n"
 else 
         printf "Updates:     ${APT_UPGRADE_PACKAGE_COUNT}\n"
